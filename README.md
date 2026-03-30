@@ -30,6 +30,7 @@ A comprehensive, enterprise-ready test automation framework built with Playwrigh
 - [Configuration](#configuration)
 - [Running Tests](#running-tests)
 - [Test Examples](#test-examples)
+- [Performance Testing](#performance-testing)
 - [Generating Reports](#generating-reports)
 - [CI/CD Integration](#cicd-integration)
 - [Contributing](#contributing)
@@ -325,6 +326,129 @@ def test_page_load_time(page):
     load_time = (end_time - start_time) * 1000
     assert load_time < 3000  # Should load within 3 seconds
 ```
+
+## 📊 Performance Testing
+
+### Performance Metrics Collected
+
+The framework automatically collects the following performance metrics:
+
+#### Page Load Metrics
+- **Page Load Time** - Total time to load the page
+- **First Contentful Paint (FCP)** - Time to first content rendering
+- **Largest Contentful Paint (LCP)** - Time to largest content rendering
+- **DOM Content Loaded** - Time to DOM tree construction
+- **Server Response Time** - Time to first byte from server
+- **Time to Interactive** - Time to become fully interactive
+
+#### API Metrics
+- **Response Time** - End-to-end API response time
+- **Throughput** - Requests per second
+- **Error Rate** - Percentage of failed requests
+
+#### Action Metrics
+- **Click Response Time** - Time to respond to user clicks
+- **Form Submission Time** - Time to process form submissions
+- **Search Response Time** - Time to display search results
+
+### Performance Test Types
+
+#### 1. Page Load Performance Tests
+Measures the loading performance of critical pages:
+
+```python
+def test_home_page_load(self):
+    thresholds = {
+        "page_load_time": 3000,
+        "first_contentful_paint": 1500,
+        "largest_contentful_paint": 2500
+    }
+    result = self.performance_test.measure_page_load(self.config.base_url)
+    self.performance_test.assert_performance_threshold(thresholds)
+```
+
+#### 2. Action Performance Tests
+Measures the performance of specific user actions:
+
+```python
+def test_login_action_performance(self):
+    def perform_login():
+        login_page.login(username, password)
+    
+    action_time, _ = self.performance_test.measure_action_performance(
+        perform_login, "login_action"
+    )
+    assert action_time < 2000
+```
+
+#### 3. API Performance Tests
+
+Measures API endpoint response times:
+
+```python
+def test_api_response_time(self, api_client):
+    start_time = time.time()
+    response = api_client.get("/products")
+    response_time = (time.time() - start_time) * 1000
+    assert response_time < 2000
+```
+
+#### 4. Load Tests
+
+Simulates concurrent users to test system scalability:
+
+```python
+def test_concurrent_user_load(self):
+    def load_product_page():
+        page.goto("/product/1")
+    
+    result = self.load_simulator.simulate_concurrent_users(50, load_product_page)
+    assert result["avg"] < 5000
+    assert result["success_count"] == 50
+```
+
+#### 5. Stress Tests
+
+Tests system behavior under extreme load:
+
+```python
+def test_stress_test_api(self, api_client):
+    # Simulate sustained high load
+    self.monitor.start_session("API Stress Test")
+    
+    # Run load for 30 seconds
+    # ... load simulation code ...
+    
+    session_data = self.monitor.end_session()
+    assert session_data["statistics"]["p99"] < 10000
+```
+
+### Performance Baselines
+
+The framework supports performance baseline comparison to detect regressions:
+
+```yaml
+# config/performance_baselines.yaml
+baselines:
+  home_page_load: 2500
+  api_avg_response: 500
+  checkout_process: 5000
+  search_response: 800
+```
+
+### Performance Reports
+
+Performance test results are automatically attached to Allure reports with:
+
+- Metrics Visualization - Charts showing performance trends
+
+- Threshold Validation - Pass/fail status for each metric
+
+- Resource Loading - Detailed resource load times
+
+- API Response Times - Endpoint-specific performance data
+
+- Load Test Results - Concurrent user statistics
 
 ## 📊 Generating Reports
 

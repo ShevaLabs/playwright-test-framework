@@ -42,3 +42,39 @@ report:
   html_report: true
   allure_report: true
   report_path: "./reports"
+
+# Performance Test Configuration
+performance:
+  thresholds:
+    page_load:
+      home_page: 3000      # milliseconds
+      login_page: 2000
+      product_page: 3500
+      cart_page: 2000
+      search_page: 2500
+    
+    api_response:
+      get_endpoints: 2000
+      post_endpoints: 3000
+      put_endpoints: 3000
+      delete_endpoints: 2000
+    
+    actions:
+      login: 2000
+      search: 1000
+      add_to_cart: 500
+      checkout: 1500
+    
+    rendering:
+      element_appear: 2000
+      element_render: 100
+  
+  load_test:
+    concurrent_users: [10, 25, 50, 100]
+    duration_seconds: 30
+    ramp_up_seconds: 10
+  
+  performance_baselines:
+    home_page_load: 2500
+    api_avg_response: 500
+    checkout_process: 5000
