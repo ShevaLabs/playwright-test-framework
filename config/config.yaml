@@ -1,0 +1,44 @@
+# Environment Configuration
+environments:
+  dev:
+    base_url: "https://dev.example.com"
+    api_url: "https://api.dev.example.com"
+    username: "test_user"
+    password: "test_pass"
+
+  staging:
+    base_url: "https://staging.example.com"
+    api_url: "https://api.staging.example.com"
+    username: "staging_user"
+    password: "staging_pass"
+
+  prod:
+    base_url: "https://example.com"
+    api_url: "https://api.example.com"
+    username: ${PROD_USERNAME}
+    password: ${PROD_PASSWORD}
+
+# Playwright Configuration
+playwright:
+  headless: false
+  slow_mo: 100
+  timeout: 30000
+  viewport:
+    width: 1920
+    height: 1080
+  browser: "chromium"  # chromium, firefox, webkit
+  trace: "on"  # on, off, retain-on-failure
+
+# Test Configuration
+test:
+  default_wait_time: 10
+  retry_count: 2
+  screenshot_on_failure: true
+  video_on_failure: true
+  max_failures: 5
+
+# Report Configuration
+report:
+  html_report: true
+  allure_report: true
+  report_path: "./reports"

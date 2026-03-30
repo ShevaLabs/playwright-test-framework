@@ -1,0 +1,376 @@
+# Test Data Configuration
+# This file contains test data for various test scenarios
+
+# User Test Data
+users:
+  valid_user:
+    username: "testuser123"
+    password: "Test@123456"
+    email: "testuser@example.com"
+    first_name: "Test"
+    last_name: "User"
+    phone: "+1234567890"
+    role: "customer"
+  
+  admin_user:
+    username: "admin"
+    password: "Admin@2024"
+    email: "admin@example.com"
+    first_name: "Admin"
+    last_name: "User"
+    phone: "+1234567891"
+    role: "admin"
+  
+  locked_user:
+    username: "locked_user"
+    password: "Locked@123"
+    email: "locked@example.com"
+    status: "locked"
+  
+  inactive_user:
+    username: "inactive_user"
+    password: "Inactive@123"
+    email: "inactive@example.com"
+    status: "inactive"
+
+# Product Test Data
+products:
+  electronics:
+    - name: "Wireless Headphones"
+      sku: "SKU-1001"
+      price: 99.99
+      quantity: 50
+      category: "Electronics"
+      description: "High-quality wireless headphones with noise cancellation"
+      brand: "SoundMaster"
+      rating: 4.5
+    
+    - name: "Smart Watch"
+      sku: "SKU-1002"
+      price: 299.99
+      quantity: 30
+      category: "Electronics"
+      description: "Fitness tracking smart watch with heart rate monitor"
+      brand: "TechFit"
+      rating: 4.2
+    
+    - name: "4K Monitor"
+      sku: "SKU-1003"
+      price: 499.99
+      quantity: 20
+      category: "Electronics"
+      description: "27-inch 4K UHD monitor for professional use"
+      brand: "ViewMax"
+      rating: 4.7
+  
+  clothing:
+    - name: "Cotton T-Shirt"
+      sku: "SKU-2001"
+      price: 19.99
+      quantity: 100
+      category: "Clothing"
+      description: "100% cotton comfortable t-shirt"
+      sizes: ["S", "M", "L", "XL"]
+      colors: ["Red", "Blue", "Black", "White"]
+      rating: 4.0
+    
+    - name: "Denim Jeans"
+      sku: "SKU-2002"
+      price: 59.99
+      quantity: 75
+      category: "Clothing"
+      description: "Classic fit denim jeans"
+      sizes: ["28", "30", "32", "34", "36"]
+      colors: ["Blue", "Black"]
+      rating: 4.3
+  
+  books:
+    - name: "Python Programming Guide"
+      sku: "SKU-3001"
+      price: 39.99
+      quantity: 200
+      category: "Books"
+      description: "Comprehensive guide to Python programming"
+      author: "John Smith"
+      rating: 4.8
+    
+    - name: "Test Automation Patterns"
+      sku: "SKU-3002"
+      price: 49.99
+      quantity: 150
+      category: "Books"
+      description: "Best practices for test automation"
+      author: "Jane Doe"
+      rating: 4.6
+
+# Low stock products for boundary testing
+low_stock_products:
+  - name: "Limited Edition Watch"
+    sku: "SKU-4001"
+    price: 199.99
+    quantity: 1
+    category: "Accessories"
+    description: "Limited edition collectible watch"
+  
+  - name: "Clearance Item"
+    sku: "SKU-4002"
+    price: 9.99
+    quantity: 0
+    category: "Clearance"
+    description: "Sold out item"
+
+# Shipping Information
+shipping_info:
+  domestic:
+    first_name: "John"
+    last_name: "Doe"
+    address: "123 Main Street"
+    city: "New York"
+    state: "NY"
+    postal_code: "10001"
+    country: "United States"
+    phone: "+1234567890"
+  
+  international:
+    first_name: "Jane"
+    last_name: "Smith"
+    address: "45 Oxford Street"
+    city: "London"
+    postal_code: "W1D 1BS"
+    country: "United Kingdom"
+    phone: "+442012345678"
+  
+  invalid:
+    - address: ""
+      expected_error: "Address is required"
+    - city: ""
+      expected_error: "City is required"
+    - postal_code: "invalid"
+      expected_error: "Invalid postal code format"
+
+# Payment Methods
+payment_methods:
+  credit_card:
+    card_number: "4111111111111111"
+    card_holder: "Test User"
+    expiry_month: "12"
+    expiry_year: "2025"
+    cvv: "123"
+  
+  invalid_cards:
+    - card_number: "1234567890123456"
+      expected_error: "Invalid card number"
+    - card_number: "4111111111111111"
+      expiry_month: "01"
+      expiry_year: "2020"
+      expected_error: "Card expired"
+    - card_number: "4111111111111111"
+      cvv: "12"
+      expected_error: "Invalid CVV"
+
+# Promo Codes
+promo_codes:
+  valid:
+    - code: "SAVE10"
+      discount_type: "percentage"
+      discount_value: 10
+      min_order: 50
+    - code: "SAVE20"
+      discount_type: "percentage"
+      discount_value: 20
+      min_order: 100
+    - code: "FLAT50"
+      discount_type: "fixed"
+      discount_value: 50
+      min_order: 200
+  
+  invalid:
+    - code: "EXPIRED2023"
+      expected_error: "Promo code expired"
+    - code: "INVALIDCODE"
+      expected_error: "Invalid promo code"
+    - code: "MINORDER100"
+      min_order: 100
+      order_total: 50
+      expected_error: "Minimum order amount not met"
+
+# Search Terms
+search_terms:
+  valid:
+    - "headphones"
+    - "watch"
+    - "t-shirt"
+    - "python"
+    - "monitor"
+  
+  invalid:
+    - "nonexistentproductxyz"
+    - "123456789"
+    - "!@#$%^&*"
+    - ""
+  
+  partial:
+    - "head"
+    - "watch"
+    - "shirt"
+
+# API Test Data
+api:
+  endpoints:
+    base_url: "https://api.example.com"
+    version: "v1"
+    
+    users:
+      get_all: "/users"
+      get_by_id: "/users/{id}"
+      create: "/users"
+      update: "/users/{id}"
+      delete: "/users/{id}"
+    
+    products:
+      get_all: "/products"
+      get_by_id: "/products/{id}"
+      search: "/products/search"
+      categories: "/products/categories"
+    
+    orders:
+      get_all: "/orders"
+      get_by_id: "/orders/{id}"
+      create: "/orders"
+      update: "/orders/{id}"
+  
+  headers:
+    default:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    
+    authenticated:
+      Authorization: "Bearer {token}"
+      Content-Type: "application/json"
+
+# Performance Test Thresholds
+performance:
+  thresholds:
+    page_load: 3000  # milliseconds
+    api_response: 2000  # milliseconds
+    search_response: 1000  # milliseconds
+    checkout_process: 5000  # milliseconds
+  
+  load_test:
+    concurrent_users: 50
+    duration_minutes: 5
+    ramp_up_seconds: 30
+
+# Browser Test Data
+browser_configs:
+  chromium:
+    name: "Chromium"
+    viewport: { width: 1920, height: 1080 }
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  
+  firefox:
+    name: "Firefox"
+    viewport: { width: 1920, height: 1080 }
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0"
+  
+  webkit:
+    name: "Safari"
+    viewport: { width: 1920, height: 1080 }
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15"
+
+# Mobile Viewport Test Data
+mobile_viewports:
+  iphone_12:
+    width: 390
+    height: 844
+    device_scale_factor: 2
+    is_mobile: true
+  
+  ipad:
+    width: 768
+    height: 1024
+    device_scale_factor: 2
+    is_mobile: false
+  
+  pixel_5:
+    width: 393
+    height: 851
+    device_scale_factor: 2.75
+    is_mobile: true
+
+# Security Test Data
+security:
+  sql_injection:
+    - "' OR '1'='1"
+    - "'; DROP TABLE users; --"
+    - "' UNION SELECT * FROM users--"
+    - "admin'--"
+    - "1' OR '1' = '1"
+  
+  xss_payloads:
+    - "<script>alert('xss')</script>"
+    - "<img src=x onerror=alert('xss')>"
+    - "javascript:alert('xss')"
+    - "<svg onload=alert('xss')>"
+  
+  special_characters:
+    - "user@#$%^&*()"
+    - "user<>?/\\|"
+    - "user{}[]"
+    - "user`~"
+
+# Email Test Data
+emails:
+  valid:
+    - "test@example.com"
+    - "user.name@example.co.uk"
+    - "user+label@example.com"
+    - "123@example.com"
+    - "user@subdomain.example.com"
+  
+  invalid:
+    - "plainaddress"
+    - "@missingusername.com"
+    - "username@.com"
+    - "username@com"
+    - "username@domain..com"
+    - "user name@domain.com"
+    - "username@domain com"
+
+# Date Test Data
+dates:
+  valid:
+    - "2024-01-01"
+    - "2024-12-31"
+    - "01/01/2024"
+    - "12/31/2024"
+  
+  invalid:
+    - "2024-02-30"
+    - "13/01/2024"
+    - "2024-13-01"
+    - "invalid date"
+
+# File Upload Test Data
+file_uploads:
+  valid:
+    - name: "valid_image.jpg"
+      type: "image/jpeg"
+      size_kb: 100
+    - name: "valid_document.pdf"
+      type: "application/pdf"
+      size_kb: 500
+    - name: "valid_text.txt"
+      type: "text/plain"
+      size_kb: 10
+  
+  invalid:
+    - name: "malicious.exe"
+      type: "application/x-msdownload"
+      expected_error: "File type not allowed"
+    - name: "large_file.mp4"
+      size_mb: 100
+      expected_error: "File size exceeds limit"
+    - name: "script.js"
+      type: "application/javascript"
+      expected_error: "File type not allowed"
